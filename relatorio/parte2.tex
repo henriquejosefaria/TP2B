@@ -237,8 +237,10 @@ Neste caso o método ativo é o TRACE. Com esta vulnerabilidade o atacante pode 
 
 \subsection{VNC Server ‘password’ Password}
 
+
 \begin{itemize}
 \item Descrição da Vulnerabilidade:O servidor VNC a correr no computador remoto utiliza uma password fraca, por defeito esta password é 'password'. Um atacante pode tirar partido disto para obter controlo sobre o sistema.
+\par Note-se que antes de podermos corrigir o a falha do VNC tivemos de o inicializar com o comando: \textit{sudo vcnserver}. Isto pois o VCN estava mal inicializado, posteriormente foi criado um ficheiro \textit{passwd} em \textit{/home/msfadmin/.vnc/} onde foi colocada a nova password do vnc.
 
 \item Método de resolução: Alterar a palavra pass para uma forte.
 \par Para proceder á geração de uma password forte utilizamos um gerador online com 16 caracteres. A password obtida foi: \textit{5?V=X\#\&kAdB'H6+y}, infelizmente o vnc tem as password truncadas para 8 caracteres automáticamente, assim a password usada foi: \textit{5?V=X\#\&k}.\newline
@@ -260,7 +262,7 @@ Neste caso o método ativo é o TRACE. Com esta vulnerabilidade o atacante pode 
 
   \hbox{\hspace{-6em} \includegraphics[scale = 0.4]{afterVNC.png}}
 
-  \caption {VNC Server com a password 'password'}
+  \caption {VNC Server com a password '5?V=X\#\&k'}
 
   \label {fig3}
 
