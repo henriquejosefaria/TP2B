@@ -129,6 +129,8 @@ Nesta secção serão analisados dois exemplos de tráfego anómalo reportados p
 \end{itemize}
 \section{Q8 - Correção de vulnerabilidades}
 
+\par Para visualização da correção das falhas alvo, note-se que o OpenVass faz um scan seguindo sempre a mesma ordem de teste portanto após a indicação de como foi corrigida cada falha aparecerá uma imagem com o antes e o depois das correções e vendo a falha anterior á falha alvo e a posterior constatar-se-á que a falha a ser corrigida foi de facto colmatada.
+
 \subsection{HTTP Debugging Methods (Trace/Track) Enabled}
 
 \begin{itemize}
@@ -140,6 +142,28 @@ Neste caso o método ativo é o TRACE. Com esta vulnerabilidade o atacante pode 
 \par Para proceder á correção do problema primeiro foi preciso encontrar o ficheiro do apache2 responsável por desabilitar o trace, este ficheiro chama-se \textit{httpd.conf} e está localizado em \textit{/etc/apache2/}.
 \par Em seguida abriu-se este ficheiro recorrendo ao comando nano como superuser: \textit{sudo nano httpd.conf} e escreveu-se o seguinte no ficheiro: \textit{TraceEnable Off}.
 
+\begin{figure}[H]
+
+  \centering
+
+  \hbox{\hspace{-6em} \includegraphics[scale = 0.4]{beforeHTTP.png}}
+
+  \caption {HTTP Debugging Methods (Trace/Track) Enabled}
+
+  \label {fig3}
+
+\end{figure}
+\begin{figure}[H]
+
+  \centering
+
+  \hbox{\hspace{-6em} \includegraphics[scale = 0.4]{afterHTTP.png}}
+
+  \caption {HTTP Debugging Methods (Trace/Track) Disabled}
+
+  \label {fig3}
+
+\end{figure}
 \item Vulnerabilidades extra corrigidas:
 \end{itemize}
 
@@ -151,7 +175,28 @@ Neste caso o método ativo é o TRACE. Com esta vulnerabilidade o atacante pode 
 \item Método de resolução: Desabilitar o uso do serviço rexec e usar alternativas como o SSH.
 \par Para realizar isto temos de ir até á pasta /etc, nesta abrimos com o comando \textit{sudo nano inetd.conf} o ficheiro inetd.conf e alteramos a linha: \textit{exec   stream    tcp  nowait  root /urs/sbin/tcpd  /usr/sbin/in.rexecd} para \textit{exec   stream    tcp  nowait  root /urs/sbin/sshd  /usr/sbin/in.rexecd}.
 \par Isto fará com que este serviço inicie o servidor rexecd usando ssh. 
+\begin{figure}[H]
 
+  \centering
+
+  \hbox{\hspace{-6em} \includegraphics[scale = 0.4]{afterRexecd.png}}
+
+  \caption {Rexecd Service over tcpd}
+
+  \label {fig3}
+
+\end{figure}
+\begin{figure}[H]
+
+  \centering
+
+  \hbox{\hspace{-6em} \includegraphics[scale = 0.4]{beforeRexecd.png}}
+
+  \caption {Rexecd Service over sshd}
+
+  \label {fig3}
+
+\end{figure}
 \item Vulnerabilidades extra corrigidas:
 \end{itemize}
 
@@ -165,7 +210,28 @@ Neste caso o método ativo é o TRACE. Com esta vulnerabilidade o atacante pode 
 \par\item Verificar se o servidor foi comprometido e reinstalar o sistema se necessário. 
 \par\item Desativar o ingreslock.
 \par O método aplicado é o bloqueio do inicio do serviço simplesmente comentando a linha \textit{ingreslock stream tcp nowait root /bin/bash bash -i}.
+\begin{figure}[H]
 
+  \centering
+
+  \hbox{\hspace{-6em} \includegraphics[scale = 0.4]{beforeBackdoor.png}}
+
+  \caption {Ingreslock backdoor enabled}
+
+  \label {fig3}
+
+\end{figure}
+\begin{figure}[H]
+
+  \centering
+
+  \hbox{\hspace{-6em} \includegraphics[scale = 0.4]{afterBackdoor.png}}
+
+  \caption {Ingreslock Service not started}
+
+  \label {fig3}
+
+\end{figure}
 \item Vulnerabilidades extra corrigidas:
 \end{itemize}
 
@@ -175,8 +241,29 @@ Neste caso o método ativo é o TRACE. Com esta vulnerabilidade o atacante pode 
 \item Descrição da Vulnerabilidade:O servidor VNC a correr no computador remoto utiliza uma password fraca, por defeito esta password é 'password'. Um atacante pode tirar partido disto para obter controlo sobre o sistema.
 
 \item Método de resolução: Alterar a palavra pass para uma forte.
-\par Para proceder á geração de uma password forte utilizamos um gerador online com 16 caracteres. A password obtida foi: \textit{5\_V+X\#/kAdB'H6+y}, infelizmente o vnc tem as password truncadas para 8 caracteres automáticamente, assim a password usada foi: \textit{5\_V+X\#/k}.\newline
+\par Para proceder á geração de uma password forte utilizamos um gerador online com 16 caracteres. A password obtida foi: \textit{5?V=X\#\&kAdB'H6+y}, infelizmente o vnc tem as password truncadas para 8 caracteres automáticamente, assim a password usada foi: \textit{5?V=X\#\&k}.\newline
 \textit{Nota:} Como as passwords do VNC são truncadas para 8 caracters, este é extremamente inseguro. Como o objetivo do trabalho é corrigir o mesmo apenas mudamos a password, no entanto achamos melhor que seja usado outro serviço e que este seja descontinuado.
+\begin{figure}[H]
 
+  \centering
+
+  \hbox{\hspace{-6em} \includegraphics[scale = 0.4]{beforeVNC.png}}
+
+  \caption {VNC Server com a password 'password'}
+
+  \label {fig3}
+
+\end{figure}
+\begin{figure}[H]
+
+  \centering
+
+  \hbox{\hspace{-6em} \includegraphics[scale = 0.4]{afterVNC.png}}
+
+  \caption {VNC Server com a password 'password'}
+
+  \label {fig3}
+
+\end{figure}
 \item Vulnerabilidades extra corrigidas:
 \end{itemize}
