@@ -1,5 +1,6 @@
+\section{Parte II}
 
-\section{Q5 - Resultados Globais}
+\subsection{Q5 - Resultados Globais}
 
 Após o scan feito pelo OpenVass obtivemos os seguintes dados.
 
@@ -18,66 +19,68 @@ Após o scan feito pelo OpenVass obtivemos os seguintes dados.
 Nesta figura podemos observar o número de vulnerabilidades conhecidas e atualmente na base de dados do OpenVass encontradas no Metasploite2.
 Em seguida apresentam-se as vulnerabilidades encontradas no Sistema visado.
 
-\subsection{Apache HTTP Server}
+\subsubsection{Apache HTTP Server}
+\hfill\\
 
 \par O servidor avaliado corre com um servidor Apache HTTP e está vulnerável a permitir acesso a informação sensivel através das cookies. O error ocorre devido á resposta de erro por defeito com código de estado 400, quando não é configurado um documento personalizado de erro.
 \par Isto pode levar a que um atacante consiga obter informação sensivel que possa auxiliar num ataque futuro.
 \par Pode ser facilmente corrigido atualizando para uma versão 2.2.22 ou posterior.
 
-\subsection{phpMyAdmin}
+\subsubsection{phpMyAdmin}
+\hfill\\
 
 O servidor está a correr phpMyAdmin e é vulnerável a cross-site scripting. Isto permite que atacantes conduzam ataques com injeção de código HTML arbitrário para gerar ataques de phishing.
 \par Ainda não foi criada uma solução e provavelmente nenhuma será criada. Deve-se mudar o serviço ou desabilitar a resposta.
 
 
-\subsection{Samba MS-RPC}
-
+\subsubsection{Samba MS-RPC}
+\hfill\\
 \par Esta vulnerabilidade permite que atacantes executem comandos arbitrários na shell. Com isto o atacante pode correr comandos na shell com as permissões da aplicação.
 \par Para corrigir isto basta fazer uma atualização do software usado.
 
-\subsection{PostGreSQL}
-
+\subsubsection{PostGreSQL}
+\hfill\\
 Podia-se aceder a uma base de dados PostgreSQL ao usar credenciais fracas, nomeadamente com a password "postgres".
 \par Para evitar acessos indevidos deve-se redifinir a palavra pass o mais cedo possível. 
 
 
-\subsection{VNC Brute Force Login}
-
+\subsubsection{VNC Brute Force Login}
+\hfill\\
 \par Este método passa por tentar aceder como uma password dada via protocolo VNC, a password usada é password.
 \par Basta substituir a password por uma mais dificil.
 
 
-\subsection{DistCC}
-
+\subsubsection{DistCC}
+\hfill\\
 \par Esta vulnerabilidade passa por aproveitar a falta de resrições nos acessos ás portas do servidor, dado que o DistCC confia cegamente nos clientes. Um atacante pode simplesmente correr comandos arbitrários no servidor.
 \par Este problema resolve-se fazendo uma atualização do software.
 
 
-\subsection{Distributed Ruby}
-
+\subsubsection{Distributed Ruby}
+\hfill\\
 \par Esta falha permite que sistemas não autorizados executem comandos distribuidos, isto pois o Distributed Ruby não previne atividades de acesso priviligiado, caso este corra com acesso priviligiado um atacante pode executar comandos ou scripts ruby.
 \par Para colmatar a falha basta restringir as permissões do serviço caso se permita o acesso a utilizadores não confiaveis ou então definir ACLs apropriadas no sistema.
 
 
-\subsection{Ingreslock}
-
+\subsubsection{Ingreslock}
+\hfill\\
 \par Uma backdoor é instalado no sevidor remoto. O serviço responde a um id: uid=0, gid=0. Com isto um atacante pode executar código arbitrário com privilégios "root".
 \par Não há correção disponivel para esta vulnerabilidade.
 
 
 
 
-\section{Q6 - Tráfego Anómalo}
+\subsection{Q6 - Tráfego Anómalo}
 
 Nesta secção serão analisados dois exemplos de tráfego anómalo reportados pelo Snort.
 
-\subsection{PROTOCOL - SNMP AgentX/tcp request}
-
+\subsubsection{PROTOCOL - SNMP AgentX/tcp request}
+\hfill\\
 \par O 5º pacote identificado pelo Snort corresponde ao pacote número 233 do WireShark.
 \par Este pacote corre sobre TCP e tem origem no endereço: 172.16.1.128, porta: 46754 destinando-se ao endereço: 172.16.1.129, porta: 80.
 
 \subsubsection{CVE-2002-0012}
-
+\hfill\\
 \begin{figure}[H]
 
   \centering
@@ -94,14 +97,14 @@ Nesta secção serão analisados dois exemplos de tráfego anómalo reportados p
 
 \par Modo de proceder: O atacante provoca um erro cujo estado seja 400. Devido a um erro na criação de um documento personalizado este pode ser explorado para expor "httpOnly" cookies.
 
-\subsection{FTP Command Overflow Attempt}
-
+\subsubsection{FTP Command Overflow Attempt}
+\hfill\\
 \par O 13º pacote identificado pelo Snort corresponde ao pacote número 9484 do WireShark.
 \par Este pacote corre sobre TCP fazendo uso de FTP e tem origem no endereço: 172.16.1.128, porta: 56385 destinando-se ao endereço: 172.16.1.129, porta: 21.
 \par De seguida apresenta-se o CVE mais recente relacionado com este problema.
 
 \subsubsection{CVE-2007-0019}
-
+\hfill\\
 \begin{figure}[H]
 
   \centering
@@ -118,7 +121,7 @@ Nesta secção serão analisados dois exemplos de tráfego anómalo reportados p
 
 
 
-\section{Q7 - Vulnerabilidades Snort vs OpenVass}
+\subsection{Q7 - Vulnerabilidades Snort vs OpenVass}
 
 \begin{itemize}
 \item A principal razão para o Snort apresentar vulnerabilidades que o openVas não reporta deve-se aos falsos positivos.
@@ -127,12 +130,12 @@ Nesta secção serão analisados dois exemplos de tráfego anómalo reportados p
 \item Uma razão pela qual o Snort pode apresentar mais falhas do que o OpenVas trata-se de o OpenVas trabalhar sobre aplicações e o Snort sobre a camada de rede. Assim o Snort pode reportar vários pacotes com comportamento anómalo como um "port scan", no entanto estes pacotes não representam necessáriamente a tentativa de exploração de uma falha pois por exemplo este scan pode ter sido feito pelo administrador da rede. Já o OpenVass deteta e reporta uma falha numa aplicação ou serviço no qual este fornece de alguma forma manipulação ou obtenção de informação sensivel.
 
 \end{itemize}
-\section{Q8 - Correção de vulnerabilidades}
+\subsection{Q8 - Correção de vulnerabilidades}
 
 \par Para visualização da correção das falhas alvo, note-se que o OpenVass faz um scan seguindo sempre a mesma ordem de teste portanto após a indicação de como foi corrigida cada falha aparecerá uma imagem com o antes e o depois das correções e vendo a falha anterior á falha alvo e a posterior constatar-se-á que a falha a ser corrigida foi de facto colmatada.
 
-\subsection{HTTP Debugging Methods (Trace/Track) Enabled}
-
+\subsubsection{HTTP Debugging Methods (Trace/Track) Enabled}
+\hfill\\
 \begin{itemize}
 \item Descrição da Vulnerabilidade: O servidor Web permite metodos de rastreamento HTTP que são usados para corrigir conecções ao servidor web.
 Neste caso o método ativo é o TRACE. Com esta vulnerabilidade o atacante pode enganar o sistema fazendo com que este lhe envie as suas credencias.
@@ -167,8 +170,8 @@ Neste caso o método ativo é o TRACE. Com esta vulnerabilidade o atacante pode 
 \item Vulnerabilidades extra corrigidas: Nenhuma.
 \end{itemize}
 
-\subsection{Rexecd Service Detection}
-
+\subsubsection{Rexecd Service Detection}
+\hfill\\
 \begin{itemize}
 \item Descrição da Vulnerabilidade: Este serviço permite a execução de comandos na shell de um computador remoto. N o entanto o rexec permite a autenticação lendo o username e password desencriptados da socket.
 
@@ -200,8 +203,8 @@ Neste caso o método ativo é o TRACE. Com esta vulnerabilidade o atacante pode 
 \item Vulnerabilidades extra corrigidas: Nenhuma.
 \end{itemize}
 
-\subsection{Bind Shell Backdoor Detection}
-
+\subsubsection{Bind Shell Backdoor Detection}
+\hfill\\
 \begin{itemize}
 \item Descrição da Vulnerabilidade: Há uma possivel backdoor instalada no servidor remoto. Ocomando está a responder a um id=0(root) e gid=0(root). Um atacante pode executar um comando no contexto da aplicação e comprometer o sistema.
 
@@ -235,8 +238,8 @@ Neste caso o método ativo é o TRACE. Com esta vulnerabilidade o atacante pode 
 \item Vulnerabilidades extra corrigidas: Nenhuma.
 \end{itemize}
 
-\subsection{VNC Server ‘password’ Password}
-
+\subsubsection{VNC Server ‘password’ Password}
+\hfill\\
 
 \begin{itemize}
 \item Descrição da Vulnerabilidade:O servidor VNC a correr no computador remoto utiliza uma password fraca, por defeito esta password é 'password'. Um atacante pode tirar partido disto para obter controlo sobre o sistema.
@@ -281,3 +284,4 @@ Neste caso o método ativo é o TRACE. Com esta vulnerabilidade o atacante pode 
 \item Vulnerabilidades extra corrigidas: Nenhuma
 \item Vulnerabilidades criadas: A correção da vulnerabilidade propósta levou ao aparecimento de outra vulnerabilidade: \textit{Denial of Service (DoS)}, como se vê na figura acima.
 \end{itemize}
+\clearpage
